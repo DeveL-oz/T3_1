@@ -4,4 +4,4 @@
 
 ## Демо-версия
 
-- [ТЗ](https://code.visualstudio.com/)
+- [ТЗ](https://musical-boba-3f4ca8.netlify.app/)
