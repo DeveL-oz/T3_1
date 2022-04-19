@@ -13,16 +13,16 @@
       </div>
       <div class="form__item theme">
         <div class="theme__title">Тема обращения *</div>
-        <input class="theme__radio" type="radio" id="one" value="Недоволен" v-model="picked">
+        <input class="theme__radio" type="radio" id="one" value="discontent" v-model="picked">
         <label for="one">Недоволен качеством услуг</label>
         <br>
-        <input class="theme__radio" type="radio" id="two" value="Расторжение" v-model="picked">
+        <input class="theme__radio" type="radio" id="two" value="dissolution" v-model="picked">
         <label for="two">Расторжение договора</label>
         <br>
-        <input class="theme__radio" type="radio" id="three" value="Не приходит" v-model="picked">
+        <input class="theme__radio" type="radio" id="three" value="absence" v-model="picked">
         <label for="three">Не приходит письмо активации на почту</label>
         <br>
-        <input class="theme__radio" type="radio" id="four" value="Не работает" v-model="picked">
+        <input class="theme__radio" type="radio" id="four" value="crash" v-model="picked">
         <label for="four">Не работает личный кабинет</label>
         <br>
         <input @input="check" class="theme__input" v-model="other" placeholder="Другое">
