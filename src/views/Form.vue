@@ -1,31 +1,32 @@
 <template>
   <div class="container">
-    <div class="h5">Форма подачи заявки в отдел сервиса и качества</div>
+    <div class="title">Форма подачи заявки в отдел сервиса и качества</div>
     <form class="form" @submit.prevent="submit">
       <div class="form__item branch">
         <div class="branch__title">Ваш филиал *</div>
         <select class="branch__select" v-model="city" :disabled="isOnline">
           <option class="branch__option" disabled value="" selected>Выберите город</option>
-          <option :value="city.title" v-for="city in cities" :key="city">{{city.title}}</option>
+          <option :value="city.title" v-for="city in cities" :key="city">{{ city.title }}</option>
         </select>
-        <input type="checkbox" class="branch__inp" id="checkbox" @change="reset" v-model="isOnline">
+        <input type="checkbox" class="branch__inp" id="checkbox" @change="onOnlineTypeCheck">
         <label for="checkbox">Онлайн</label>
       </div>
+
       <div class="form__item theme">
         <div class="theme__title">Тема обращения *</div>
-        <input class="theme__radio" type="radio" id="one" value="discontent" v-model="picked">
+        <input class="theme__radio" type="radio" id="one" value="discontent" v-model="petitionReason">
         <label for="one">Недоволен качеством услуг</label>
         <br>
-        <input class="theme__radio" type="radio" id="two" value="dissolution" v-model="picked">
+        <input class="theme__radio" type="radio" id="two" value="dissolution" v-model="petitionReason">
         <label for="two">Расторжение договора</label>
         <br>
-        <input class="theme__radio" type="radio" id="three" value="absence" v-model="picked">
+        <input class="theme__radio" type="radio" id="three" value="absence" v-model="petitionReason">
         <label for="three">Не приходит письмо активации на почту</label>
         <br>
-        <input class="theme__radio" type="radio" id="four" value="crash" v-model="picked">
+        <input class="theme__radio" type="radio" id="four" value="crash" v-model="petitionReason">
         <label for="four">Не работает личный кабинет</label>
         <br>
-        <input @input="check" class="theme__input" v-model="other" placeholder="Другое">
+        <input class="theme__input" v-model="otherReason" placeholder="Другое">
       </div>
       <div class="form__item problem">
         <div class="problem__title">Описание проблемы *</div>
@@ -39,7 +40,7 @@
         </div>
         <input class="loading__input" type="file">
       </div>
-      <button class="form__btn" type="submit" :disabled="!checkForm">Отправить</button>
+      <button class="form__btn" type="submit" :disabled="!canSubmitForm">Отправить</button>
     </form>
   </div>
 </template>
@@ -56,25 +57,42 @@ export default {
     return {
       isOnline: false,
       city: '',
-      picked: '',
+      petitionReasonValue: '',
       other: '',
       description: '',
+      otherReasonValue: '',
     };
   },
   computed: {
     ...mapGetters([
       'cities',
     ]),
-    checkForm() {
-      return (this.city || this.isOnline) && (this.picked || this.other) && this.description;
+    canSubmitForm() {
+      return (this.city || this.isOnline) && (this.petitionReasonValue || this.otherReasonValue) && this.description;
+    },
+    otherReason: {
+      get() {
+        return this.otherReasonValue;
+      },
+      set(value) {
+        this.otherReasonValue = value;
+        this.petitionReasonValue = '';
+      },
+    },
+    petitionReason: {
+      get() {
+        return this.petitionReasonValue;
+      },
+      set(value) {
+        this.petitionReasonValue = value;
+        this.otherReasonValue = '';
+      },
     },
   },
   methods: {
-    check() {
-      if (this.other) this.picked = '';
-    },
-    reset() {
+    onOnlineTypeCheck() {
       this.city = '';
+      this.isOnline = !this.isOnline;
     },
     async submit() {
       const response = await request();
@@ -82,11 +100,6 @@ export default {
       else this.$router.push({ name: 'success' });
     },
 
-  },
-  watch: {
-    picked() {
-      this.other = '';
-    },
   },
 
 };

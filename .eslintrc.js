@@ -7,6 +7,7 @@ module.exports = {
     'eslint:recommended',
     'airbnb-base',
     'plugin:vue/vue3-essential',
+    'plugin:css-modules/recommended',
 
   ],
   parserOptions: {
@@ -15,7 +16,7 @@ module.exports = {
   },
   plugins: [
     'vue',
+    'css-modules',
   ],
-  rules: {
-  },
+
 };
